@@ -1,0 +1,56 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  LOCAL_USER:
+    sh: echo "$(whoami)"
+  LOCAL_USERID:
+    sh: echo "$(id -u)"
+  LOCAL_GROUPID:
+    sh: echo "$(id -g)"
+  # since we build our local username in to the image name, tag it with the username as well
+  DOCKER_IMAGE_NAME: 
+    sh: echo "local/multi-astro/{{.LOCAL_USER}}_{{.LOCAL_USERID}}_{{.LOCAL_GROUPID}}"
+  DOCKER_CONTAINER_NAME: multi-astro
+  CLOUDFLARE_ENV_FILENAME: cloudflare.env.local
+
+tasks:
+
+  image-build:
+    desc:  build the docker dev image
+    cmds:
+      - |
+        docker build {{if .USE_NO_CACHE}}--no-cache{{end}} \
+        --build-arg "USERID={{.LOCAL_USERID}}" \
+        --build-arg "GROUPID={{.LOCAL_GROUPID}}" \
+        --build-arg "USERNAME={{.LOCAL_USER}}" \
+        -t "{{.DOCKER_IMAGE_NAME}}" .
+
+  image-build-nocache:
+    desc:  build the docker dev image without using the current docker cache
+    cmds:
+      - task: build-image
+        vars: { USE_NO_CACHE: '1'}
+
+  env-run:
+    desc: start a dev container and a bash shell in the container
+    interactive: true
+    cmds:
+      - |
+        docker run --rm -it \
+        --user {{.LOCAL_USER}} \
+        -v $(pwd)/sites:/sites \
+        -p 8000:8000 \
+        -p 8001:8001 \
+        --name {{.DOCKER_CONTAINER_NAME}} \
+        {{.DOCKER_IMAGE_NAME}} /bin/bash
+
+  env-term:
+    desc: start another terminal in the dev container -- only works if `task env-run` is running elsewhere
+    interactive: true
+    cmds:
+      - |
+        docker exec -it \
+        {{.DOCKER_CONTAINER_NAME}} \
+        /bin/bash
