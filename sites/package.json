@@ -2,7 +2,7 @@
   "name": "sites",
   "version": "1.0.0",
   "author": "",
-  "license": "ISC",
+  "license": "0BSD",
   "description": "Top level package for Astro monorepo",
   "private": true,
   "workspaces": [
