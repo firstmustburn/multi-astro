@@ -6,7 +6,8 @@
   "private": true,
   "main": "./index.ts",
   "exports": {
-    ".": "./index.ts"
+    ".": "./index.ts",
+    "./card": "./src/components/Card.astro"
   },
   "files": [
     "src",

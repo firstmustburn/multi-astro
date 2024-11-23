@@ -4,6 +4,11 @@ This is the static site generator for multiple Astro websites in the same repo. 
 dockerized build environment for consistent output across a development team and CI.  It uses the
 excellent Task tool for standardizing and automating common tasks.
 
+## Reference
+
+The [Astro publish to NPM docs](https://docs.astro.build/en/reference/publish-to-npm/) was a useful
+resource for setting this up.
+
 ## Development Quickstart
 
 Install:

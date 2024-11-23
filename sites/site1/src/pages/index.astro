@@ -1,8 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// import Card from '@common/components/Card.astro';
-import { Card } from 'multi-astro-common';
+// this example leverages the ./card export in multi-astro-common/package.json
+// for this to work, you have to set `compileOptions.moduleResolution` to something like `nodenext`
+// in tsconfig.json
+import  Card  from 'multi-astro-common/card';  
+//import by name from index.ts
 import { OtherCard } from 'multi-astro-common';
 
 ---
