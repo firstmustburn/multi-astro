@@ -1,6 +1,3 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "references": [
-    { "path": "../multi-astro-common" }
-  ]
+  "extends": "astro/tsconfigs/strict"
 }
